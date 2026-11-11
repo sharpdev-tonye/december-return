@@ -1,0 +1,71 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TradingView Bot Control Center</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #121212; color: #e0e0e0; margin: 0; padding: 20px; }
+        .container { align-items: center; max-width: 800px; margin: auto; background: #1e1e1e; padding: 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        h2, h3 { color: #fff; }
+        .status-box { padding: 10px 15px; border-radius: 4px; margin-bottom: 20px; font-weight: bold; }
+        .running { background: #1b5e20; color: #a5d6a7; }
+        .stopped { background: #b71c1c; color: #ffcdd2; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        .logout-btn { background: #444; float: right; text-decoration: none; padding: 8px 15px; color: #fff; border-radius: 4px; font-size: 14px; }
+        input[type="text"], input[type="file"] { width: 100%; padding: 10px; background: #2d2d2d; border: 1px solid #444; color: #fff; border-radius: 4px; box-sizing: border-box; }
+        pre { background: #121212; padding: 15px; border-radius: 4px; white-space: pre-wrap; word-wrap: break-word; border: 1px solid #333; }
+        .form-group { margin-bottom: 15px; }
+        .divider { text-align: center; color: #666; margin: 15px 0; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/logout" class="logout-btn">Logout</a>
+        <h2>TradingView Forex AI Analyzer</h2>
+        
+        <!-- Bot Status & Toggle -->
+        <!-- <div class="status-box {% if is_running %}running{% else %}stopped{% endif %}">
+            Telegram Bot Status: {% if is_running %}RUNNING (Polling Active){% else %}STOPPED{% endif %}
+        </div> -->
+        
+        <form action="/toggle-bot" method="POST" style="margin-bottom: 30px;">
+            <button type="submit" style="background: {% if is_running %}#d32f2f{% else %}#388e3c{% endif %};">
+                {% if is_running %}Stop Telegram Bot{% else %}Start Telegram Bot{% endif %}
+            </button>
+        </form>
+
+        <hr style="border: 0; border-top: 1px solid #333; margin: 25px 0;">
+
+        <!-- Chart Analysis Form (URL or Upload) -->
+        <form action="/analyze" method="POST" enctype="multipart/form-data" style="background: #252525; padding: 20px; border-radius: 6px;">
+            <h3>Analyze Chart</h3>
+            
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 5px; color: #bbb;">TradingView URL:</label>
+                <input type="text" name="chart_url" placeholder="https://www.tradingview.com/chart/...">
+            </div>
+            
+            <div class="divider">— OR UPLOAD SCREENSHOT —</div>
+            
+            <div class="form-group">
+                <label style="display: block; margin-bottom: 5px; color: #bbb;">Upload Image File:</label>
+                <input type="file" name="chart_file" accept="image/*">
+            </div>
+            
+            <button type="submit">Run AI Analysis</button>
+        </form>
+
+        <!-- Analysis Results Section -->
+        {% if analysis_result %}
+        <div style="margin-top: 30px;">
+            <h3>Analysis Output:</h3>
+            <pre>{{ analysis_result }}</pre>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
